@@ -3,7 +3,7 @@ package com.mvpmatch.vendingmachine.models;
 import org.springframework.security.core.GrantedAuthority;
 
 public enum Role implements GrantedAuthority {
-    BUYER, SELLER;
+    ROLE_BUYER, ROLE_SELLER;
 
 
     @Override

@@ -16,7 +16,7 @@ public class Product {
     private int amountAvailable;
 
     @Column
-    private double cost;
+    private int cost;
 
     @Column
     @Id
