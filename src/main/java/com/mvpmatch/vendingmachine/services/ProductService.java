@@ -20,7 +20,17 @@ public class ProductService {
     public Product create(Product product, Authentication authentication) {
         String sellerId = authService.getUsernameFromAuth(authentication);
         product.setSellerId(sellerId);
+
+        if (product.getCost() % 5 != 0) {
+            throw new RuntimeException("Product price has to be a multiple of 5");
+        }
+
+
         return repository.save(product);
+    }
+
+    public void save(Product product) {
+        this.repository.save(product);
     }
 
     public Product read(String productName) {
