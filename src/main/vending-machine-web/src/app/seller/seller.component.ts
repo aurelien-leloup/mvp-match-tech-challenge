@@ -17,7 +17,7 @@ export class SellerComponent implements OnInit, OnDestroy {
   mode$: Observable<'add' | 'edit'>;
   selectedProductSubject: BehaviorSubject<Product | null>
   productForm: FormGroup;
-  refreshSubject = new BehaviorSubject(true);
+  refreshSubject: BehaviorSubject<boolean>;
   displayedColumns = ['productName', 'cost', 'amountAvailable', 'sellerId', 'action'];
   subscriptions: Subscription;
 
@@ -26,6 +26,7 @@ export class SellerComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private productService: ProductService) {
     this.selectedProductSubject = new BehaviorSubject<Product | null>(null);
+    this.refreshSubject =new BehaviorSubject(true)
     this.subscriptions = new Subscription();
   }
 

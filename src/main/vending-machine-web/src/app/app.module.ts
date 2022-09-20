@@ -19,6 +19,9 @@ import {MatInputModule} from "@angular/material/input";
 import {MatIconModule} from "@angular/material/icon";
 import {MatSelectModule} from "@angular/material/select";
 import {MatTableModule} from "@angular/material/table";
+import { MatRadioModule } from "@angular/material/radio";
+import { TransactionDialogComponent } from './transaction-dialog/transaction-dialog.component';
+import { MatDialogModule } from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -27,23 +30,26 @@ import {MatTableModule} from "@angular/material/table";
     LoginComponent,
     CreateComponent,
     BuyerComponent,
-    SellerComponent
+    SellerComponent,
+    TransactionDialogComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatToolbarModule,
-        MatButtonModule,
-        FlexModule,
-        HttpClientModule,
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatInputModule,
-        MatIconModule,
-        MatSelectModule,
-        MatTableModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatButtonModule,
+    FlexModule,
+    HttpClientModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatIconModule,
+    MatSelectModule,
+    MatTableModule,
+    MatRadioModule,
+    MatDialogModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })

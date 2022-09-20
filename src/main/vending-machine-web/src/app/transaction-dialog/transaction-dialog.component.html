@@ -1,0 +1,21 @@
+<h1 mat-dialog-title>Total success 🎉</h1>
+<div mat-dialog-content>
+  <h2>You bought :</h2>
+  <ul>
+    <li *ngFor="let product of data.result.productsPurchased">
+      {{product.productId + ' x' + product.quantity}}
+    </li>
+  </ul>
+  <h2>It costed : {{data.result.totalSpent}}</h2>
+
+  <h2>Here is your change</h2>
+  <ul>
+    <li *ngFor="let change of data.result.change">
+      {{change.coinValue + 'coin x' + change.quantity}}
+    </li>
+  </ul>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close="true" cdkFocusInitial>Ok</button>
+</div>

@@ -1,1 +1,80 @@
-<p>buyer works!</p>
+<div fxLayout="row">
+  <div *ngIf="user$ | async as user" fxFlex="50" class="buyer-container">
+    <h1> Hello, {{user.username}} </h1>
+    <p> Your current deposit is {{user.deposit}}</p>
+    <form [formGroup]="depositForm">
+      <mat-radio-group aria-label="Select an option" formControlName="deposit">
+        <mat-radio-button [value]="5">5</mat-radio-button>
+        <mat-radio-button [value]="10" class="ml-8">10</mat-radio-button>
+        <mat-radio-button [value]="20" class="ml-8">20</mat-radio-button>
+        <mat-radio-button [value]="50" class="ml-8">50</mat-radio-button>
+        <mat-radio-button [value]="100" class="ml-8">100</mat-radio-button>
+      </mat-radio-group>
+    </form>
+    <div style="margin-top: 8px">
+      <button mat-raised-button color="primary" (click)="onDepositClicked()">
+        Deposit
+      </button>
+      <button mat-raised-button color="warn" (click)="onResetClicked()" class="ml-8">
+        Reset
+      </button>
+    </div>
+
+  </div>
+  <div *ngIf="products$ | async as products"
+       fxFlex="50"
+       fxLayout="column" fxLayoutAlign="center center"
+       class="buyer-container">
+    <table mat-table [dataSource]="products" *ngIf="products.length > 0; else noProducts">
+      <ng-container matColumnDef="productName">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let product"> {{product.productName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cost">
+        <th mat-header-cell *matHeaderCellDef>Cost</th>
+        <td mat-cell *matCellDef="let product"> {{product.cost | currency:'EUR'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="amountAvailable">
+        <th mat-header-cell *matHeaderCellDef>Amount available</th>
+        <td mat-cell *matCellDef="let product"> {{product.amountAvailable}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="sellerId">
+        <th mat-header-cell *matHeaderCellDef>Seller</th>
+        <td mat-cell *matCellDef="let product"> {{product.sellerId}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let product">
+          <button mat-icon-button (click)="onPurchaseIncremented(product.productName)">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="add_circle"></mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+    <div *ngIf="productsPurchased.length > 0" style="width: 100%">
+      <ul>
+        <li *ngFor="let product of productsPurchased">
+          {{product.productId + ' x' + product.quantity}}
+        </li>
+      </ul>
+
+      <button mat-raised-button color="primary" (click)="onBuyClicked()">
+        Buy
+      </button>
+    </div>
+  </div>
+  <ng-template #noProducts>
+    <div class="no-products">
+      <p>No products to display</p>
+    </div>
+
+  </ng-template>
+</div>
