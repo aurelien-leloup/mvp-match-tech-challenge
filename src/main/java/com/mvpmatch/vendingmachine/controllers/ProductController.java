@@ -7,6 +7,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/product")
 public class ProductController {
@@ -26,6 +28,12 @@ public class ProductController {
     @ResponseBody
     Product read(@PathVariable String productName) {
         return this.productService.read(productName);
+    }
+
+    @GetMapping
+    @ResponseBody
+    List<Product> list() {
+        return this.productService.list();
     }
 
     @PutMapping

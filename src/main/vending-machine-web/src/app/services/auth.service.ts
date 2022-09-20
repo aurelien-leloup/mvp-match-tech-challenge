@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
-import {map, Observable} from "rxjs";
+import {BehaviorSubject, map, Observable, Subject, tap} from "rxjs";
 import {AuthUser, User} from "../models/user.model";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment";
 
 @Injectable({
@@ -9,14 +9,33 @@ import {environment} from "../../environments/environment";
 })
 export class AuthService {
   private static readonly endpoint = `${environment.backendUrl}/auth`;
+  private userSubject: BehaviorSubject<AuthUser | null>;
 
   constructor(private http: HttpClient) {
+    this.userSubject = new BehaviorSubject<AuthUser | null>(null);
   }
 
   auth(username: string, password: string): Observable<User> {
     return this.http.post<AuthUser>(AuthService.endpoint, {username, password}).pipe(
-      map(authUser => authUser.user)
+      tap(authUser => this.userSubject.next(authUser)),
+      map(authUser => authUser.user),
     )
+  }
+
+  getUser(): User | undefined {
+    return this.userSubject.getValue()?.user;
+  }
+
+  getAuthUser(): AuthUser | null {
+    return this.userSubject.getValue();
+  }
+
+  getHeaders() {
+    return new HttpHeaders({Authorization: 'Bearer ' + this.getToken()});
+  }
+
+  getToken() {
+    return this.userSubject.getValue()?.jwtToken;
   }
 
 

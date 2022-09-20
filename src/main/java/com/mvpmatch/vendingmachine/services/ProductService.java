@@ -3,10 +3,13 @@ package com.mvpmatch.vendingmachine.services;
 import com.mvpmatch.vendingmachine.daos.ProductRepository;
 import com.mvpmatch.vendingmachine.exceptions.UnauthorizedException;
 import com.mvpmatch.vendingmachine.models.Product;
+import org.apache.commons.collections4.IterableUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ProductService {
@@ -59,6 +62,10 @@ public class ProductService {
         }
 
         this.repository.delete(product);
+    }
+
+    public List<Product> list() {
+        return IterableUtils.toList(this.repository.findAll());
     }
 
 }

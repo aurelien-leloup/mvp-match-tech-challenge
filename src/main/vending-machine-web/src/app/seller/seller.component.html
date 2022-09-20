@@ -1,1 +1,73 @@
-<p>seller works!</p>
+<div fxLayout="row">
+  <div *ngIf="user" fxFlex="50" class="seller-container">
+    <h1> Hello, {{user.username}} </h1>
+    <h2 *ngIf="mode$ | async as mode">
+      {{mode == 'add' ? 'Add a product' : 'Edit a product'}}
+    </h2>
+    <form [formGroup]="productForm">
+      <mat-form-field appearance="fill">
+        <mat-label>Product Name</mat-label>
+        <input matInput formControlName="productName">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Cost</mat-label>
+        <input matInput type="number" formControlName="cost">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Amount available</mat-label>
+        <input matInput type="number" formControlName="amountAvailable">
+      </mat-form-field>
+    </form>
+    <button mat-raised-button (click)="onProductSubmit()">
+      <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="arrow_forward"></mat-icon>
+    </button>
+  </div>
+  <div *ngIf="products$ | async as products"
+       fxFlex="50"
+       fxLayout="column" fxLayoutAlign="center center"
+       class="seller-container">
+    <table mat-table [dataSource]="products" *ngIf="products.length > 0; else noProducts">
+      <ng-container matColumnDef="productName">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let product"> {{product.productName}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="cost">
+        <th mat-header-cell *matHeaderCellDef>Cost</th>
+        <td mat-cell *matCellDef="let product"> {{product.cost | currency:'EUR'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="amountAvailable">
+        <th mat-header-cell *matHeaderCellDef>Amount available</th>
+        <td mat-cell *matCellDef="let product"> {{product.amountAvailable}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="sellerId">
+        <th mat-header-cell *matHeaderCellDef>Seller</th>
+        <td mat-cell *matCellDef="let product"> {{product.sellerId}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let product">
+          <button mat-icon-button (click)="onEditClicked(product)">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="edit"></mat-icon>
+          </button>
+          <button mat-icon-button (click)="onDeleteClicked(product)">
+            <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="delete"></mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+    </table>
+  </div>
+  <ng-template #noProducts>
+    <div class="no-products">
+      <p>No products to display</p>
+    </div>
+
+  </ng-template>
+</div>
