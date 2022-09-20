@@ -1,0 +1,27 @@
+<div class="create-container">
+  <h2>Create user</h2>
+  <form [formGroup]="createForm">
+    <mat-form-field appearance="fill" >
+      <mat-label>Username</mat-label>
+      <input matInput formControlName="username">
+    </mat-form-field>
+    <mat-form-field appearance="fill" style="margin-left: 8px" >
+      <mat-label>Password</mat-label>
+      <input matInput type="password" formControlName="password">
+    </mat-form-field>
+    <mat-form-field appearance="fill" style="margin-left: 8px">
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="role" >
+        <mat-option value="ROLE_BUYER">
+          BUYER
+        </mat-option>
+        <mat-option value="ROLE_SELLER">
+          SELLER
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </form>
+  <button mat-raised-button (click)="onCreateClicked()">
+    <mat-icon aria-hidden="false" aria-label="Example home icon" fontIcon="arrow_forward"></mat-icon>
+  </button>
+</div>

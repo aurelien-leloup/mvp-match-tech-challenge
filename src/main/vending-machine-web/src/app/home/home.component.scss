@@ -1,0 +1,15 @@
+.home-container {
+  height: calc(100% - 64px);
+
+  p {
+    font-size: 40px;
+    line-height: 40px;
+    text-align: center;
+  }
+
+  button {
+    font-size: 32px;
+    margin: 16px;
+    padding: 16px;
+  }
+}
