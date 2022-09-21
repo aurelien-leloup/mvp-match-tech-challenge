@@ -1,6 +1,7 @@
 package com.mvpmatch.vendingmachine.services;
 
 import com.mvpmatch.vendingmachine.daos.ProductRepository;
+import com.mvpmatch.vendingmachine.exceptions.InvalidInputException;
 import com.mvpmatch.vendingmachine.exceptions.UnauthorizedException;
 import com.mvpmatch.vendingmachine.models.Product;
 import org.apache.commons.collections4.IterableUtils;
@@ -24,9 +25,7 @@ public class ProductService {
         String sellerId = authService.getUsernameFromAuth(authentication);
         product.setSellerId(sellerId);
 
-        if (product.getCost() % 5 != 0) {
-            throw new RuntimeException("Product price has to be a multiple of 5");
-        }
+
 
 
         return repository.save(product);
@@ -46,7 +45,7 @@ public class ProductService {
         String sellerIdAuth = authService.getUsernameFromAuth(authentication);
 
         if (!sellerIdAuth.equals(sellerIdDB)) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException("Product does not belong to authenticated user");
         }
 
         return this.repository.save(product);
@@ -58,7 +57,7 @@ public class ProductService {
         String sellerIdAuth = authService.getUsernameFromAuth(authentication);
 
         if (!sellerIdAuth.equals(sellerIdDB)) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException("Product does not belong to authenticated user");
         }
 
         this.repository.delete(product);

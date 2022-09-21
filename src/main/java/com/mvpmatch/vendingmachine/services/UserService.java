@@ -2,6 +2,7 @@ package com.mvpmatch.vendingmachine.services;
 
 import com.mvpmatch.vendingmachine.daos.UserRepository;
 import com.mvpmatch.vendingmachine.exceptions.InvalidInputException;
+import com.mvpmatch.vendingmachine.exceptions.NotFoundException;
 import com.mvpmatch.vendingmachine.models.Deposit;
 import com.mvpmatch.vendingmachine.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +25,30 @@ public class UserService {
     @Autowired
     AuthService authService;
 
-    public User save(User user) {
+    public User create(User user) {
+        try {
+            read(user.getUsername());
+        } catch (NotFoundException e) {
+            user.setPassword(encoder.encode(user.getPassword()));
+            return this.repository.save(user);
+        }
+        throw new InvalidInputException("User already exists");
+    }
+
+    public User read(String username) {
+        return this.repository
+                .findById(username)
+                .orElseThrow(() ->new NotFoundException("User", username));
+    }
+
+    public User update(User user) {
+        read(user.getUsername());
         user.setPassword(encoder.encode(user.getPassword()));
         return this.repository.save(user);
     }
 
-    public User read(String username) {
-        return this.repository.findById(username).orElseThrow();
-    }
-
     public void delete(String username) {
-        User user = this.repository.findById(username).orElseThrow();
+        User user = read(username);
         this.repository.delete(user);
     }
 
@@ -54,6 +68,6 @@ public class UserService {
         String username = this.authService.getUsernameFromAuth(authentication);
         User user = read(username);
         user.setDeposit(0);
-        save(user);
+        this.repository.save(user);
     }
 }

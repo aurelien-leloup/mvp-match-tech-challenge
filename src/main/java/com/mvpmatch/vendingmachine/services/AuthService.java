@@ -37,8 +37,7 @@ public class AuthService implements UserDetailsService {
             String token = jwtTokenProvider.createToken(username, user.getRole());
             return new AuthentifiedUser(user, token);
         } catch (AuthenticationException e) {
-            e.printStackTrace();
-            throw new UnauthorizedException();
+            throw new UnauthorizedException("Error with auth", e);
         }
     }
 

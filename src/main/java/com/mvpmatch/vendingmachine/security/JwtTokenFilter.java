@@ -31,7 +31,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             }
         } catch (UnauthorizedException ex) {
             SecurityContextHolder.clearContext();
-            throw new UnauthorizedException();
+            throw new UnauthorizedException("JWT invalid", ex);
         }
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);

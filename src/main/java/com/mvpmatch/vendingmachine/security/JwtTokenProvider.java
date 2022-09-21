@@ -75,7 +75,7 @@ public class JwtTokenProvider {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
             return true;
         } catch (JwtException | IllegalArgumentException e) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException("Error while parsing JWT", e);
         }
     }
 

@@ -59,33 +59,25 @@ public class TransactionService {
         List<Change> change = new ArrayList<>();
 
         while (changeTotal > 0) {
-            int coinNumber;
-            if (changeTotal >= 100) {
-                coinNumber = changeTotal / 100;
-                change.add(new Change(100, coinNumber));
-                changeTotal -= coinNumber * 100;
-            } else if (changeTotal >= 50) {
-                coinNumber = changeTotal / 50;
-                change.add(new Change(50, coinNumber));
-                changeTotal -= coinNumber * 50;
-            } else if (changeTotal >= 20) {
-                coinNumber = changeTotal / 20;
-                change.add(new Change(20, coinNumber));
-                changeTotal -= coinNumber * 20;
-            } else if (changeTotal >= 10) {
-                coinNumber = changeTotal / 10;
-                change.add(new Change(10, coinNumber));
-                changeTotal -= coinNumber * 10;
-            } else {
-                coinNumber = changeTotal / 5;
-                change.add(new Change(5, coinNumber));
-                changeTotal -= coinNumber * 5;
-            }
+            int coinValue = findCoinValue(changeTotal);
+            int coinNumber = changeTotal / coinValue;
+            change.add(new Change(coinValue, coinNumber));
+            changeTotal -= coinNumber * coinValue;
         }
 
         result.setChange(change);
         user.setDeposit(0);
-        userService.save(user);
+        userService.update(user);
         return result;
+    }
+
+
+    private int findCoinValue(int changeTotal) {
+        for (int coin : List.of(100, 50, 20, 10)) {
+            if (changeTotal >= coin) {
+                return coin;
+            }
+        }
+        return 5;
     }
 }

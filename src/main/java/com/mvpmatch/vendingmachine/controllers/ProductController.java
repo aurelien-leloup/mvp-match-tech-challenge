@@ -1,5 +1,6 @@
 package com.mvpmatch.vendingmachine.controllers;
 
+import com.mvpmatch.vendingmachine.exceptions.InvalidInputException;
 import com.mvpmatch.vendingmachine.models.Product;
 import com.mvpmatch.vendingmachine.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ public class ProductController {
     @ResponseBody
     @PreAuthorize("hasRole('ROLE_SELLER')")
     public Product create(@RequestBody Product product, Authentication authentication) {
+        checkProduct(product);
         return productService.create(product, authentication);
     }
 
@@ -37,13 +39,24 @@ public class ProductController {
     }
 
     @PutMapping
-    Product update(@RequestBody Product user, Authentication authentication) {
-        return this.productService.update(user, authentication);
+    Product update(@RequestBody Product product, Authentication authentication) {
+        checkProduct(product);
+        return this.productService.update(product, authentication);
     }
 
     @DeleteMapping("/{productName}")
     void delete(@PathVariable String productName, Authentication authentication) {
         this.productService.delete(productName, authentication);
+    }
+
+    private void checkProduct(Product product) {
+        if (product.getCost() % 5 != 0) {
+            throw new InvalidInputException("Product price has to be a multiple of 5");
+        }
+
+        if (product.getAmountAvailable() < 0) {
+            throw new InvalidInputException("Product amount invalid");
+        }
     }
 
 
