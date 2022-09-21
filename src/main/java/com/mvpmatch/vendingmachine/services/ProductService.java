@@ -55,6 +55,10 @@ public class ProductService {
         return this.repository.save(product);
     }
 
+    public void save(Product product) {
+        this.repository.save(product);
+    }
+
     public void delete(String productName, Authentication authentication) {
         Product product = read(productName);
         String sellerIdDB = product.getSellerId();

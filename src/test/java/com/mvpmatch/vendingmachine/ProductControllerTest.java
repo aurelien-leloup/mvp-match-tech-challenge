@@ -19,13 +19,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ProductControllerTest {
 
     @Autowired
     private MockMvc mvc;
 
-    @Autowired
-    private ProductService service;
 
     @Autowired
     ObjectMapper objectMapper;
@@ -36,7 +35,7 @@ public class ProductControllerTest {
 
     private Product expectedResultProduct;
 
-    @BeforeEach
+    @BeforeAll
     public void init() {
         this.validProduct = new Product();
         validProduct.setAmountAvailable(2);

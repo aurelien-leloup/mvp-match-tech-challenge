@@ -49,7 +49,7 @@ public class TransactionService {
 
 
         for (Product product : updatedProducts) {
-            productService.update(product, authentication);
+            productService.save(product);
         }
 
         result.setTotalSpent(purchaseTotal);
