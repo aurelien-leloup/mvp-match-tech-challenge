@@ -35,9 +35,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // No session will be created or used by spring security
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+        String[] frontEndUrl = new String[]{
+                "/",
+                "/login",
+                "/create",
+                "/seller",
+                "/buyer"
+        };
+
 
         // Entry points
         http.authorizeRequests()
+                .antMatchers(frontEndUrl).permitAll()
                 .antMatchers("/user").permitAll()
                 .antMatchers("/auth").permitAll()
                 .antMatchers("/h2console/**").permitAll()
