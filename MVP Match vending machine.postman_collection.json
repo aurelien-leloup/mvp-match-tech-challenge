@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"amountAvailable\": 2,\r\n    \"cost\": 100,\r\n    \"productName\": \"product2\",\r\n    \"sellerId\": \"XXXX\"\r\n}",
+							"raw": "{\"amountAvailable\":100,\"cost\":5,\"productName\":\"product3\"}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -41,13 +41,31 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/product/product2",
+							"raw": "{{url}}/product/product3",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"product",
-								"product2"
+								"product3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/product/",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"product",
+								""
 							]
 						}
 					},
@@ -60,7 +78,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"amountAvailable\": 6,\r\n    \"cost\": 50,\r\n    \"productName\": \"product1\",\r\n    \"sellerId\": \"seller\"\r\n}",
+							"raw": "{\r\n    \"amountAvailable\": 4,\r\n    \"cost\": 0,\r\n    \"productName\": \"product3\",\r\n    \"sellerId\": \"seller2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -86,13 +104,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/product/product2",
+							"raw": "{{url}}/product/product3",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"product",
-								"product2"
+								"product3"
 							]
 						}
 					},
@@ -113,7 +131,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"seller\",\r\n    \"password\": \"seller\",\r\n    \"role\": \"ROLE_SELLER\"\r\n}",
+							"raw": "{\r\n    \"username\": \"seller2\",\r\n    \"password\": \"seller2\",\r\n    \"role\": \"ROLE_SELLER\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -237,7 +255,8 @@
 							"script": {
 								"exec": [
 									"var res = pm.response.json();\r",
-									"pm.environment.set(\"token\", res.jwtToken);"
+									"pm.environment.set(\"token\", res.jwtToken);\r",
+									"pm.globals.set(\"token\", res.jwtToken);"
 								],
 								"type": "text/javascript"
 							}
@@ -251,7 +270,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"seller\",\r\n    \"password\": \"seller\"\r\n}",
+							"raw": "{\r\n    \"username\": \"seller2\",\r\n    \"password\": \"seller2\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
